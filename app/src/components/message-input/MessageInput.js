@@ -2,14 +2,17 @@ import styled from 'styled-components';
 
 import Button from '../../components/button/Button';
 
-import * as toxicity from '@tensorflow-models/toxicity';
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { SocketContext } from '../../socket/socket';
+import { updateInputMessage } from '../../store/inputMessageSlice';
+
+import SpeechToText from '../speech-to-text/SpeechToText';
 
 const MessageInputField = styled.textarea`
   width: 100%;
   padding: 20px;
-  border: 2px solid ${props => props.toxic ? 'red' : '#ccc'};
+  border: 2px solid '#ccc';
   resize: none;
   box-sizing: border-box;
   font-family: 'Noto Sans';
@@ -17,7 +20,7 @@ const MessageInputField = styled.textarea`
   &:focus-visible {
     outline: none;
     border-radius: 0px;
-    border: 2px solid ${props => props.toxic ? 'red' : 'black'};
+    border: 2px solid 'black';
   }
 
   &::placeholder {
@@ -25,65 +28,32 @@ const MessageInputField = styled.textarea`
   }
 `;
 
-const AlertMessage = styled.p`
-  color: red;
-  margin-top: 0px;
-  font-size: 13px;
-`;
-
-function MessageInput(props) {
-  const [toxicityModel, setToxicityModel] = useState();
-  const [ message, setMessage ] = useState('');
-  const [ toxic, setToxic ] = useState(false);
-  const threshold = 0.9;
+function MessageInput() {
   const nickname = useSelector((state) => state.nicknameReducer.value);
+  const inputMessage = useSelector((state) => state.inputMessageReducer.value);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    async function loadModel() {
-      setToxicityModel(await toxicity.load(threshold));
-    }
+  const socket = useContext(SocketContext);
 
-    loadModel();
-  }, []);
+  const send = async (e) => {
+    socket.sendMessage({
+      nickname,
+      timestamp: (new Date()).toLocaleTimeString([], { timeStyle: 'short' }),
+      message: inputMessage,
+    });
 
-  const classifyAndSend = async (e)  => {
-
-    // const predictions = await toxicityModel.classify([message]);
-    let currentMessageIsToxic = false;
-
-    // for(let prediction of predictions) {
-    //   const [{ match }] = prediction.results;
-
-    //   if (match) currentMessageIsToxic = true;
-    // }
-
-    setToxic(false);
-
-    if (!currentMessageIsToxic) {
-      props.socketInstance.emit('add-message', {
-        nickname,
-        timestamp: '10:00 PM',
-        message,
-      });
-      setMessage('');
-    }
+    dispatch(updateInputMessage(''));
   };
 
   return <>
     <MessageInputField
       type="text"
       placeholder="Enter your message here..."
-      value={message}
-      onChange={(e) => setMessage(e.target.value)}
-      toxic={toxic} />
+      value={inputMessage}
+      onChange={(e) => dispatch(updateInputMessage(e.target.value))} />
     <br />
-
-    {
-      toxic &&
-      <AlertMessage>You message voilates the code of conduct of the chatroom and hence is not published.</AlertMessage>
-    }
-
-    <Button onClick={classifyAndSend} disabled={!toxicityModel} float="right">SEND</Button>
+    <SpeechToText />
+    <Button onClick={send} disabled={false} float="right">SEND</Button>
   </>
 }
 

@@ -1,11 +1,12 @@
 const express = require('express');
-const cors = require('cors');
+
+require('dotenv').config();
+
 const app = express();
 
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-
 
 const io = new Server(server, {
   cors: {
@@ -15,15 +16,16 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-
   socket.on('add-message', (data) => {
-    socket.emit('new-message', data);
+    io.emit('new-message', data);
   });
 });
 
 io.on("connect_error", (err) => {
   console.log(`connect_error due to ${err.message}`);
 });
+
+require('./speechToText')(io);
 
 server.listen(5000, () => {
   console.log('listening on *:5000');

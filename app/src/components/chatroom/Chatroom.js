@@ -5,25 +5,27 @@ import Nickname from '../nickname/Nickname';
 
 import styled from 'styled-components';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector  } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import io from 'socket.io-client';
-import { useState } from 'react';
-import { addMessage } from '../../store/messagesSlice';
+import SocketProvider from '../../socket/socket';
+import CensorToxicMessages from '../censor-toxic-messages/CensorToxicMessages';
 
 const Content = styled.div`
   width: 80%;
   margin: 20px auto;
 `;
 
+const FloatRight = styled.div`
+  float: right;
+  margin-top: 50px;
+  margin-right: 100px;
+`;
+
 function Chatroom() {
   const nickname = useSelector((state) => state.nicknameReducer.value);
-
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [ socketInstance, setSocketInstance ] = useState();
 
   useEffect(() => {
     if (nickname === '') {
@@ -31,23 +33,19 @@ function Chatroom() {
     }
   }, [nickname, navigate])
 
-  useEffect(() => {
-    const socket = io("http://localhost:5000");
-
-    setSocketInstance(socket);
-
-    socket.on('new-message', (message) => {
-      dispatch(addMessage(message));
-    });
-  }, []);
-
   return <>
-  <LogoutButton />
-  <Nickname />
-  <Content>
-    <ConversationFeed />
-    <MessageInput socketInstance={socketInstance} />
-  </Content></>;
+    <LogoutButton />
+    <SocketProvider>
+      <FloatRight>
+        <CensorToxicMessages />
+        <Nickname />
+      </FloatRight>
+      <Content>
+        <ConversationFeed />
+          <MessageInput />
+      </Content>
+    </SocketProvider>
+  </>;
 }
 
 export default Chatroom;

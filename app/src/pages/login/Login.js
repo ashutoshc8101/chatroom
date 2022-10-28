@@ -16,7 +16,7 @@ const Margin = styled.div`
 
 function Login() {
   return <StyleWrapper>
-    <h1>Welcome to polite chat!</h1>
+    <h1>Welcome to intelligent chat!</h1>
     <Margin height="50px" />
     <TextInput />
     <br />

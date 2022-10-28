@@ -10,9 +10,9 @@ const LogoutIcon = styled.img`
 `;
 
 function LogoutButton() {
-    return <Link to={'/'}>
-      <LogoutIcon src={logoutIcon} alt="logout" />
-    </Link>;
+  return <Link to={'/'}>
+    <LogoutIcon src={logoutIcon} alt="logout" />
+  </Link>;
 }
 
 export default LogoutButton;

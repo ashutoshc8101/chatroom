@@ -34,7 +34,8 @@ function ConversationFeed() {
           key={index}
           username={message.nickname}
           timestamp={message.timestamp}
-          message={message.message} />
+          message={message.message}
+          censor={message.censor} />
       )
     }
   </Background>;
