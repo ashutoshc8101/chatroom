@@ -1,8 +1,8 @@
-import Button from "../../components/button/Button";
-import TextInput from "../../components/text-input/TextInput";
-
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+import Button from '../../components/button/Button';
+import TextInput from '../../components/text-input/TextInput';
 
 const StyleWrapper = styled.div`
   width: 80%;
@@ -11,7 +11,7 @@ const StyleWrapper = styled.div`
 `;
 
 const Margin = styled.div`
-  height: ${props => props.height};
+  height: ${ props => props.height };
 `;
 
 function Login() {
@@ -21,7 +21,7 @@ function Login() {
     <TextInput />
     <br />
     <Margin height="15px" />
-    <Link to={'/chat'}><Button>Enter Chatroom</Button></Link>
+    <Link to={ '/chat' }><Button>Enter Chatroom</Button></Link>
   </StyleWrapper>;
 }
 

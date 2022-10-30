@@ -1,9 +1,8 @@
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import Message from '../message/Message';
-
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 
 const Background = styled.div`
   background-color: #fff;
@@ -31,11 +30,11 @@ function ConversationFeed() {
     {
       messages.map((message, index) =>
         <Message
-          key={index}
-          username={message.nickname}
-          timestamp={message.timestamp}
-          message={message.message}
-          censor={message.censor} />
+          key={ index }
+          username={ message.nickname }
+          timestamp={ message.timestamp }
+          message={ message.message }
+          censor={ message.censor } />
       )
     }
   </Background>;

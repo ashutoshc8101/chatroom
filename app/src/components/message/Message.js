@@ -28,14 +28,14 @@ function MessageHeader(props) {
   return <>
     <Username>{ props.username }</Username>
     <MessageTimestamp>{ props.timestamp }</MessageTimestamp>
-  </>
+  </>;
 }
 
 function Message(props) {
   return <MarginBottomDiv>
-      <MessageHeader username={props.username} timestamp={props.timestamp} />
-      <MessageBody>{ !props.censor ? props.message : <Fade>This message is found to be toxic</Fade> }</MessageBody>
-    </MarginBottomDiv>;
+    <MessageHeader username={ props.username } timestamp={ props.timestamp } />
+    <MessageBody>{ !props.censor ? props.message : <Fade>This message is found to be toxic</Fade> }</MessageBody>
+  </MarginBottomDiv>;
 }
 
 export default Message;

@@ -1,12 +1,10 @@
+import { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import Button from '../../components/button/Button';
-
-import { useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { SocketContext } from '../../socket/socket';
 import { updateInputMessage } from '../../store/inputMessageSlice';
-
 import SpeechToText from '../speech-to-text/SpeechToText';
 
 const MessageInputField = styled.textarea`
@@ -28,6 +26,14 @@ const MessageInputField = styled.textarea`
   }
 `;
 
+const FloatRight = styled.span`
+  float: right;
+`;
+
+const MarginRight = styled.span`
+  margin-right: 10px;
+`;
+
 function MessageInput() {
   const nickname = useSelector((state) => state.nicknameReducer.value);
   const inputMessage = useSelector((state) => state.inputMessageReducer.value);
@@ -35,11 +41,11 @@ function MessageInput() {
 
   const socket = useContext(SocketContext);
 
-  const send = async (e) => {
+  const send = async () => {
     socket.sendMessage({
-      nickname,
-      timestamp: (new Date()).toLocaleTimeString([], { timeStyle: 'short' }),
       message: inputMessage,
+      nickname,
+      timestamp: (new Date()).toLocaleTimeString([], { timeStyle: 'short' })
     });
 
     dispatch(updateInputMessage(''));
@@ -49,12 +55,15 @@ function MessageInput() {
     <MessageInputField
       type="text"
       placeholder="Enter your message here..."
-      value={inputMessage}
-      onChange={(e) => dispatch(updateInputMessage(e.target.value))} />
+      value={ inputMessage }
+      onChange={ (e) => dispatch(updateInputMessage(e.target.value)) } />
     <br />
-    <SpeechToText />
-    <Button onClick={send} disabled={false} float="right">SEND</Button>
-  </>
+    <FloatRight>
+      <SpeechToText />
+      <MarginRight />
+      <Button onClick={ send } disabled={ false } float="right">SEND</Button>
+    </FloatRight>
+  </>;
 }
 
 export default MessageInput;

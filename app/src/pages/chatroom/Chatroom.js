@@ -1,16 +1,15 @@
-import MessageInput from '../message-input/MessageInput';
-import ConversationFeed from '../conversation-feed/ConversationFeed';
-import LogoutButton from '../logout/LogoutButton';
-import Nickname from '../nickname/Nickname';
-
-import styled from 'styled-components';
-
+import { useEffect } from 'react';
 import { useSelector  } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import styled from 'styled-components';
 
+import CensorToxicMessages from '../../components/censor-toxic-messages/CensorToxicMessages';
+import ConversationFeed from '../../components/conversation-feed/ConversationFeed';
+import LogoutButton from '../../components/logout/LogoutButton';
+import MessageInput from '../../components/message-input/MessageInput';
+import Nickname from '../../components/nickname/Nickname';
+import TextToSpeechCheckbox from '../../components/text-to-speech-checkbox/TextToSpeechCheckbox';
 import SocketProvider from '../../socket/socket';
-import CensorToxicMessages from '../censor-toxic-messages/CensorToxicMessages';
 
 const Content = styled.div`
   width: 80%;
@@ -31,18 +30,19 @@ function Chatroom() {
     if (nickname === '') {
       navigate('/');
     }
-  }, [nickname, navigate])
+  }, [nickname, navigate]);
 
   return <>
     <LogoutButton />
     <SocketProvider>
       <FloatRight>
+        <TextToSpeechCheckbox />
         <CensorToxicMessages />
         <Nickname />
       </FloatRight>
       <Content>
         <ConversationFeed />
-          <MessageInput />
+        <MessageInput />
       </Content>
     </SocketProvider>
   </>;

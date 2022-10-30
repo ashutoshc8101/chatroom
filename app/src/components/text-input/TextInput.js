@@ -1,6 +1,6 @@
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { useDispatch, useSelector } from 'react-redux';
 import { updateNickname } from '../../store/nicknameSlice';
 
 const StyledTextInput = styled.input`
@@ -19,11 +19,13 @@ function TextInput() {
   const nickname = useSelector((state) => state.nicknameReducer.value);
   const dispatch = useDispatch();
 
-  return <StyledTextInput
-            type="text"
-            value={nickname}
-            onChange={ (e) => { dispatch(updateNickname(e.target.value)) } }
-            placeholder="Please enter nickname" />;
+  return <>
+    <StyledTextInput
+      type="text"
+      value={ nickname }
+      onChange={ (e) => { dispatch(updateNickname(e.target.value)); } }
+      placeholder="Please enter nickname" />
+  </>;
 }
 
 export default TextInput;

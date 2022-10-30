@@ -1,35 +1,44 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
+
+import micIcon from '../../assets/icons/mic.png';
+import recordingIcon from '../../assets/icons/record.png';
 import { SocketContext } from '../../socket/socket';
 import { updateInputMessage } from '../../store/inputMessageSlice';
+import Button from '../button/Button';
+
+const MicIcon = styled.img`
+  height: 14px;
+`;
 
 function SpeechToText() {
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
 
-  let AudioContext,
-  context,
-  processor,
-  input,
-  globalStream;
+  const [streamStreaming, setStreamStreaming] = useState(false);
 
-  let streamStreaming = false;
+  let AudioContext,
+    context,
+    processor,
+    input,
+    globalStream;
 
   const constraints = {
     audio: true,
-    video: false,
+    video: false
   };
 
   const initRecording = async () => {
     socket.socket.emit('startGoogleCloudStream', '');
-    streamStreaming = true;
+    setStreamStreaming(true);
     AudioContext = window.AudioContext || window.webkitAudioContext;
 
     context = new AudioContext({
       latencyHint: 'interactive'
     });
 
-    await context.audioWorklet.addModule('/recorderWorkletProcessor.js')
+    await context.audioWorklet.addModule('/recorderWorkletProcessor.js');
     context.resume();
 
     globalStream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -56,7 +65,7 @@ function SpeechToText() {
   };
 
   const stopRecording = () => {
-    streamStreaming = false;
+    setStreamStreaming(false);
     socket.socket.emit('endGoogleCloudStream', '');
 
     if (globalStream) {
@@ -80,7 +89,7 @@ function SpeechToText() {
   useEffect(() => {
     socket.socket.on('speechData', (data) => {
       dispatch(updateInputMessage(data.results[0].alternatives[0].transcript));
-    })
+    });
 
     return () => {
       if (streamStreaming) {
@@ -90,10 +99,15 @@ function SpeechToText() {
   }, []);
 
   return <>
-    <audio />
-    <button onClick={startRecording }>Start Recording</button>
-    <button onClick={ stopRecording }>Stop Recording</button>
-  </>
+    { streamStreaming ?
+      <Button onClick={ stopRecording }>
+        <MicIcon src={ recordingIcon } alt="recording icon" />
+      </Button> :
+      <Button onClick={ startRecording }>
+        <MicIcon src={ micIcon } alt="mic icon" />
+      </Button>
+    }
+  </>;
 }
 
 export default SpeechToText;

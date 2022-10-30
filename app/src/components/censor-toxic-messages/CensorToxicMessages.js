@@ -1,7 +1,6 @@
 import * as toxicity from '@tensorflow-models/toxicity';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import styled from 'styled-components';
 
 import { updateAllMessages } from '../../store/messagesSlice';
@@ -36,12 +35,12 @@ function CensorToxicMessages() {
       let newMessages = [];
 
       for (let message of messages) {
-        newMessages.push({...message, censor: false});
+        newMessages.push({ ...message, censor: false });
       }
 
       dispatch(updateAllMessages(newMessages));
       return;
-    };
+    }
 
     const candidateStrings = await messages.map((message) => message.message);
 
@@ -50,7 +49,7 @@ function CensorToxicMessages() {
 
     for (let j = 0; j < predictions[6].results.length; j++) {
       if (predictions[6].results[j].match) {
-        newMessages.push({...messages[j], censor: true});
+        newMessages.push({ ...messages[j], censor: true });
       } else {
         newMessages.push(messages[j]);
       }
@@ -60,13 +59,13 @@ function CensorToxicMessages() {
   };
 
   return <CheckboxWrapper>
-      <input type="checkbox"
-             label="Censor toxic messages"
-             checked={toxicMessagesAreCensored}
-             disabled={!toxicityModel}
-             onChange={handleCheckboxChange} />
-      {toxicityModel ? 'Censor Toxic Messages' : 'Model is loading..'}
-    </CheckboxWrapper>;
+    <input type="checkbox"
+      label="Censor toxic messages"
+      checked={ toxicMessagesAreCensored }
+      disabled={ !toxicityModel }
+      onChange={ handleCheckboxChange } />
+    { toxicityModel ? 'Censor Toxic Messages' : 'Model is loading..' }
+  </CheckboxWrapper>;
 }
 
 export default CensorToxicMessages;
