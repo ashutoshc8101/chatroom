@@ -1,3 +1,11 @@
+# Submission Details
+Name: Ashutosh Chauhan
+
+University: IIT Jammu
+
+Department: Electrical Engineering
+
+
 # Smart Chat
 
 A chatroom where users can interact with the room through text messages. It supports the censoring of toxic words. The following category of messages is censored by the toxicity model integrated into the chat app, identity attacks, insults, obscene, severe toxicity, sexually explicit, and threats. It also provides functions such as writing a new message by speaking (speech to text) and auto-reading of new messages (text to speech).
