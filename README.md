@@ -15,6 +15,7 @@ git clone https://github.com/ashutoshc8101/chatroom.git
 ```
 cd api;
 npm install
+mv .env.example .env
 cd ../app
 npm install
 ```
