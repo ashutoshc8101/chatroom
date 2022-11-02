@@ -1,5 +1,5 @@
 {
-  "name": "chatroom-with-toxicity-detector",
+  "name": "smart-chat",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

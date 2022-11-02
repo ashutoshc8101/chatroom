@@ -2,12 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const nicknameSlice = createSlice({
   initialState: {
-    value: ''
+    value: localStorage ? localStorage.getItem('user') : ''
   },
   name: 'nickname',
   reducers: {
     updateNickname: (state, action) => {
       state.value = action.payload;
+      if (localStorage)
+        localStorage.setItem('user', action.payload);
     }
   }
 });

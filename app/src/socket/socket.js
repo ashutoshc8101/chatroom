@@ -33,6 +33,12 @@ function SocketProvider({ children }) {
     dispatch(addMessage(messageObj));
   }
 
+  const updateAllMessages = (messages) => {
+    for (let messageObj of messages) {
+      dispatch(addMessage(messageObj));
+    }
+  };
+
   useEffect(() => {
     if (!socketRef.current || !(socketRef.current && socketRef.current.connected)) {
       socketRef.current = io.connect('http://localhost:5000');
@@ -42,6 +48,8 @@ function SocketProvider({ children }) {
       socketRef.current.on('disconnect', updateSocketObj);
 
       socketRef.current.on('connect', updateSocketObj);
+
+      socketRef.current.on('all-messages', updateAllMessages);
 
       return () => {
         socketRef.current.disconnect();

@@ -1,4 +1,4 @@
-# The intelligent classroom.
+# The smart classroom.
 
 ### Installation instructions:
 

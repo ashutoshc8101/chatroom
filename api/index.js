@@ -1,6 +1,7 @@
 const express = require('express');
 
 require('dotenv').config();
+const db = require('./db');
 
 const app = express();
 
@@ -15,14 +16,20 @@ const io = new Server(server, {
   }
 });
 
-io.on('connection', (socket) => {
-  socket.on('add-message', (data) => {
-    io.emit('new-message', data);
+io.on('connection', async (socket) => {
+  const data = await db.Message.find().limit(50);
+
+  socket.emit('all-messages', data);
+
+  socket.on('add-message', async (data) => {
+    let messageInstance = db.Message({...data});
+    await messageInstance.save();
+    io.emit('new-message', messageInstance);
   });
 });
 
 io.on("connect_error", (err) => {
-  console.log(`connect_error due to ${err.message}`);
+  console.error(`connect_error due to ${err.message}`);
 });
 
 require('./speechToText')(io);
