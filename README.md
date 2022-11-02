@@ -28,3 +28,6 @@ npm run start;
 cd ../app;
 npm run start;
 ```
+
+### Live Demo
+A demo is deployed on http://13.235.177.229/. The speech to text functionality is not working in the demo as it requires a https connection.
