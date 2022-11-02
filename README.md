@@ -31,3 +31,9 @@ npm run start;
 
 ### Live Demo
 A demo is deployed on http://13.235.177.229/. The speech to text functionality is not working in the demo as it requires a https connection.
+
+### Demo Video
+
+https://user-images.githubusercontent.com/24855641/199422676-9f21349d-2a67-4198-bfa3-c905d4a4476c.mp4
+
+
