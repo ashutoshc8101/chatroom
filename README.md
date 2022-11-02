@@ -5,12 +5,11 @@ University: IIT Jammu
 
 Department: Electrical Engineering
 
+Design Document: https://docs.google.com/document/d/1BRMRRii3Edt42wU9_Xz48_6is0S0kZUt069RupbArec/edit?usp=sharing
 
 # Smart Chat
 
 A chatroom where users can interact with the room through text messages. It supports the censoring of toxic words. The following category of messages is censored by the toxicity model integrated into the chat app, identity attacks, insults, obscene, severe toxicity, sexually explicit, and threats. It also provides functions such as writing a new message by speaking (speech to text) and auto-reading of new messages (text to speech).
-
-Design Document: https://docs.google.com/document/d/1BRMRRii3Edt42wU9_Xz48_6is0S0kZUt069RupbArec/edit?usp=sharing
 
 ### Installation instructions:
 Enable speech to text api on google cloud console, then create a service account and download its json file.
