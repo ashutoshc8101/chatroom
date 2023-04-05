@@ -47,3 +47,8 @@ A demo is deployed on http://13.235.177.229/. The speech to text functionality i
 https://user-images.githubusercontent.com/24855641/199422676-9f21349d-2a67-4198-bfa3-c905d4a4476c.mp4
 
 
+## Speech Recognition
+
+Enable speech recogition on [Google Cloud Console](https://cloud.google.com/speech-to-text) and create a service account.
+Download serviceAccount.json and place it in api folder.
+
