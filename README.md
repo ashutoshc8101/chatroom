@@ -49,6 +49,6 @@ https://user-images.githubusercontent.com/24855641/199422676-9f21349d-2a67-4198-
 
 ## Speech Recognition
 
-Enable speech recogition on Google Cloud Console and create a service account.
+Enable speech recogition on [Google Cloud Console](https://cloud.google.com/speech-to-text) and create a service account.
 Download serviceAccount.json and place it in api folder.
 
